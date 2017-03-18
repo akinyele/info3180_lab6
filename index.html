@@ -4,6 +4,7 @@
 <head>
 <meta charset="utf-8">
 <title>Shopping List</title>
+
 <style type="text/css">
 #mainContent {
 	font-family: Arial, Helvetica, sans-serif;
@@ -43,11 +44,65 @@
 
 <body>
 <div id="mainContent">
-<p id="helloText">?</p>
-<button id="clickButton" class="buttonStyle"></button>
-</div>
-<script> 
+	
+
+<p id="helloText">My List</p>
+
+	<div ng-app="myShoppingList" ng-controller="myCtrl">
+		
+		<ul>
+			<li ng-repeat="x in products">{{x}} <span class = "remove" ng-click = "removeItem($index)">&times; </span>
+			</li>
+			
+		</ul>
+			<label for="newItem">Add</label>
+			<input type="text" name="newItem" ng-model='addMe'/>
+			<button id="clickButton" class="buttonStyle" ng-click ="addItem()">Add Item</button>
+			</br>
+			<p ng-model = "errorText"> {{errorText}} </p>
+	
+			
+	</div>
+ </div>
+
+
+<script src= "angular.min.js"> </script>
+
+<script > 
+
+	var app = angular.module('myShoppingList', [])
+
+	app.controller("myCtrl", function($scope){
+	
+		$scope.products = ['Milk', 'Cheeese', 'Bread'];
+		$scope.addItem = function(){
+			
+			$scope.errorText= "";
+			
+			if(!$scope.addMe){return ;}
+			
+			if($scope.products.indexOf($scope.addMe) == -1){
+				$scope.products.push($scope.addMe);
+			
+			}else{
+				$scope.errorText = "You already have this item in your cart"
+				
+			}
+			
+			
+		};
+		$scope.removeItem = function(x){
+			 $scope.errorText = "";
+			$scope.products.splice(x,1);
+			
+		}
+	});
+	
+	
+
+
 </script>
+
 
 </body>
 </html>
